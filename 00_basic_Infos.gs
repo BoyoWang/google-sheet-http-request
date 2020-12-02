@@ -32,7 +32,7 @@ var address_firstCell_A1_Style = {
     columns: {
       index: [0, "Index"],
       apiAdderss: [1, "apiAddress"],
-      res: [2, "res"],
+      response: [2, "Response"],
     },
   },
 };
