@@ -87,6 +87,39 @@ function SZZ_getHttpRequests() {
   let rangeApiListData = rangeApiList.getValues();
 
   Logger.log(rangeApiListData);
+
+  const indexColIndex =
+    address_firstCell_A1_Style.httpRequestList.columns.index[0];
+  const apiColIndex =
+    address_firstCell_A1_Style.httpRequestList.columns.apiAdderss[0];
+  const resColIndex =
+    address_firstCell_A1_Style.httpRequestList.columns.response[0];
+  let testApi = "";
+  let result = "";
+
+  for (i = 0; i < rangeApiListData.length; i++) {
+    testApi = rangeApiListData[i][apiColIndex];
+    result = sendGetRequest(testApi);
+    if (result.id) result = result.id;
+    if (result.message) result = result.message;
+    rangeApiListData[i][resColIndex] = result;
+    rangeApiListData[i][indexColIndex] = i + 1;
+  }
+
+  rangeApiList.setValues(rangeApiListData);
+
+  function sendGetRequest(apiAddress) {
+    try {
+      const response = UrlFetchApp.fetch(apiAddress, {
+        muteHttpExceptions: true,
+      });
+      const json = response.getContentText();
+      const data = JSON.parse(json);
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 function SZZ_Delete_NonImportant_Sheets() {
