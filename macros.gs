@@ -34,16 +34,9 @@ function G052_Change_SheetName() {
   S05_changeSheetsName();
 }
 
-function GZZ1_MonotarouExcuteAll() {
-  var spreadsheet = SpreadsheetApp.getActive();
-  var targetSheet = spreadsheet.getActiveSheet();
-  Monotarou_DoSthAfterPaste1();
-  Monotarou_DoSthAfterPaste2();
-}
-
 function GZZ2_ResetFile() {
-  var spreadsheet = SpreadsheetApp.getActive();
-  var mainSheet = spreadsheet.getSheetByName(name_importantSheets.mainSheet);
+  const spreadsheet = SpreadsheetApp.getActive();
+  const mainSheet = spreadsheet.getSheetByName(name_importantSheets.mainSheet);
 
   // if mainSheet doesn't exist create it
   if (!mainSheet) {
@@ -52,9 +45,37 @@ function GZZ2_ResetFile() {
     Logger.log("mainSheet created.");
   }
 
-  S02_resetFile();
+  SZZ_resetFile();
 }
 
-function GZZ3_JointShts() {
-  Monotaro_JointShts();
+function SZZ_resetFile() {
+  const spreadsheet = SpreadsheetApp.getActive();
+  const mainSheet = spreadsheet.getSheetByName(name_importantSheets.mainSheet);
+  SZZ_Delete_NonImportant_Sheets();
+  mainSheet.clearContents().clearFormats();
+  Logger.log("File is reset.");
+}
+
+function SZZ_Delete_NonImportant_Sheets() {
+  const spreadsheet = SpreadsheetApp.getActive();
+  const sheets = spreadsheet.getSheets();
+
+  for (let i = 0; i < sheets.length; i++) {
+    let sheetNameToTest = sheets[i].getSheetName();
+    if (!TestIfSheetIsImportant(sheetNameToTest)) {
+      spreadsheet.deleteSheet(spreadsheet.getSheetByName(sheetNameToTest));
+      Logger.log("Sheet '" + sheetNameToTest + "' is deleted.");
+    }
+  }
+
+  function TestIfSheetIsImportant(sheetName) {
+    const importantSheetsArray = FN_changeObjectValueToArray(
+      name_importantSheets
+    );
+    if (importantSheetsArray.indexOf(sheetName) > -1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
