@@ -74,6 +74,21 @@ function SZZ_resetFile() {
     .setValues(list);
 }
 
+function SZZ_getHttpRequests() {
+  const spreadsheet = SpreadsheetApp.getActive();
+  const mainSheet = spreadsheet.getSheetByName(name_importantSheets.mainSheet);
+
+  const rangeApiList = FN_returnListRangeExcludeTopRows(
+    mainSheet,
+    address_firstCell_A1_Style.httpRequestList.firstCell,
+    2
+  );
+
+  let rangeApiListData = rangeApiList.getValues();
+
+  Logger.log(rangeApiListData);
+}
+
 function SZZ_Delete_NonImportant_Sheets() {
   const spreadsheet = SpreadsheetApp.getActive();
   const sheets = spreadsheet.getSheets();
