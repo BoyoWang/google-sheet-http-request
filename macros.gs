@@ -5,7 +5,7 @@ function SZZ_resetFile() {
   mainSheet.clearContents().clearFormats();
   Logger.log("File is reset.");
 
-  var list = FN_makeFirst2ArrayOfLists(
+  var list = M01_functions.makeFirst2ArrayOfTable(
     M00_tablesInfo.httpRequestList.columns,
     M00_tablesInfo.httpRequestList.title
   );
