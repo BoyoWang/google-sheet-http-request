@@ -80,7 +80,7 @@ function SZZ_Delete_NonImportant_Sheets() {
   }
 
   function TestIfSheetIsImportant(sheetName) {
-    const importantSheetsArray = FN_changeObjectValueToArray(
+    const importantSheetsArray = FN_transformObjectValuesToArray(
       M00_importantSheets
     );
     if (importantSheetsArray.indexOf(sheetName) > -1) {

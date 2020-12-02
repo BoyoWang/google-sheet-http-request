@@ -23,36 +23,36 @@ function FN_get_ColRange_In_TitleRow(/*string*/ textToFind, /*sheet*/ sheet) {
   }
 }
 
-function FN_changeObjectValueToArray(object) {
-  //  var newArray = [];
-  //  for ([key, val] in object){
-  //    newArray.push(val);
-  //  };
-  //  return newArray
-  return Object.values(object); // 2020.02.27 : fixed
+function FN_transformObjectValuesToArray(object) {
+  return Object.values(object);
 }
 
-function FN_makeFirst2ArrayOfLists(
-  /*object*/ ListTitleColIndexObject,
-  /*string*/ listMainTitle
-) {
-  var indexInfoArray = FN_changeObjectValueToArray(ListTitleColIndexObject);
+function FN_makeFirst2ArrayOfLists(columnInfoObject, tableTitle) {
+  // read table column infos
+  var indexInfoArray = FN_transformObjectValuesToArray(columnInfoObject);
+
+  // sort the indexInfoArray by index
   indexInfoArray.sort(function (a, b) {
     return a[0] - b[0];
-  }); //sort the indexInfoArray by index
+  });
 
-  var indexAmt = indexInfoArray.length;
+  // read column amount
+  var colAmt = indexInfoArray.length;
 
+  // values for first row, title, "", "" ...
   var firstRowArray = [];
-  firstRowArray.push(listMainTitle);
-  for (var i = 1; i < indexAmt; i++) {
+  firstRowArray.push(tableTitle);
+  for (var i = 1; i < colAmt; i++) {
     firstRowArray.push("");
   }
+
+  // values for second row, col1Title, col2Title, col3Title ...
   var secondRowArray = [];
-  for (var i = 0; i < indexAmt; i++) {
+  for (var i = 0; i < colAmt; i++) {
     secondRowArray.push(indexInfoArray[i][1]);
   }
 
+  // push fisrt and second row into new array
   var arrayReturn = [];
   arrayReturn.push(firstRowArray);
   arrayReturn.push(secondRowArray);
