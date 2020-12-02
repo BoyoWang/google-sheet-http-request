@@ -1,19 +1,17 @@
 function SZZ_resetFile() {
   const spreadsheet = SpreadsheetApp.getActive();
-  const mainSheet = spreadsheet.getSheetByName(name_importantSheets.mainSheet);
+  const mainSheet = spreadsheet.getSheetByName(M00_importantSheets.mainSheet);
   SZZ_Delete_NonImportant_Sheets();
   mainSheet.clearContents().clearFormats();
   Logger.log("File is reset.");
 
   var list = FN_makeFirst2ArrayOfLists(
-    address_firstCell_A1_Style.httpRequestList.columns,
-    address_firstCell_A1_Style.httpRequestList.title
+    M00_tablesInfo.httpRequestList.columns,
+    M00_tablesInfo.httpRequestList.title
   );
 
   //Set array values to the range
-  var firstCell = mainSheet.getRange(
-    address_firstCell_A1_Style.httpRequestList.firstCell
-  );
+  var firstCell = mainSheet.getRange(M00_tablesInfo.httpRequestList.firstCell);
   mainSheet
     .getRange(
       firstCell.getRow(),
@@ -26,11 +24,11 @@ function SZZ_resetFile() {
 
 function SZZ_getHttpRequests() {
   const spreadsheet = SpreadsheetApp.getActive();
-  const mainSheet = spreadsheet.getSheetByName(name_importantSheets.mainSheet);
+  const mainSheet = spreadsheet.getSheetByName(M00_importantSheets.mainSheet);
 
   const rangeApiList = FN_returnListRangeExcludeTopRows(
     mainSheet,
-    address_firstCell_A1_Style.httpRequestList.firstCell,
+    M00_tablesInfo.httpRequestList.firstCell,
     2
   );
 
@@ -38,12 +36,9 @@ function SZZ_getHttpRequests() {
 
   Logger.log(rangeApiListData);
 
-  const indexColIndex =
-    address_firstCell_A1_Style.httpRequestList.columns.index[0];
-  const apiColIndex =
-    address_firstCell_A1_Style.httpRequestList.columns.apiAdderss[0];
-  const resColIndex =
-    address_firstCell_A1_Style.httpRequestList.columns.response[0];
+  const indexColIndex = M00_tablesInfo.httpRequestList.columns.index[0];
+  const apiColIndex = M00_tablesInfo.httpRequestList.columns.apiAdderss[0];
+  const resColIndex = M00_tablesInfo.httpRequestList.columns.response[0];
   let testApi = "";
   let result = "";
 
@@ -86,7 +81,7 @@ function SZZ_Delete_NonImportant_Sheets() {
 
   function TestIfSheetIsImportant(sheetName) {
     const importantSheetsArray = FN_changeObjectValueToArray(
-      name_importantSheets
+      M00_importantSheets
     );
     if (importantSheetsArray.indexOf(sheetName) > -1) {
       return true;

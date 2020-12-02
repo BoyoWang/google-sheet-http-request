@@ -1,4 +1,4 @@
-var address_firstCell_A1_Style = {
+const M00_tablesInfo = {
   httpRequestList: {
     firstCell: "A1",
     title: "httpRequestList",
@@ -10,6 +10,6 @@ var address_firstCell_A1_Style = {
   },
 };
 
-var name_importantSheets = {
+const M00_importantSheets = {
   mainSheet: "Main",
 };
