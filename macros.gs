@@ -54,6 +54,24 @@ function SZZ_resetFile() {
   SZZ_Delete_NonImportant_Sheets();
   mainSheet.clearContents().clearFormats();
   Logger.log("File is reset.");
+
+  var list = FN_makeFirst2ArrayOfLists(
+    address_firstCell_A1_Style.httpRequestList.columns,
+    address_firstCell_A1_Style.httpRequestList.title
+  );
+
+  //Set array values to the range
+  var firstCell = mainSheet.getRange(
+    address_firstCell_A1_Style.httpRequestList.firstCell
+  );
+  mainSheet
+    .getRange(
+      firstCell.getRow(),
+      firstCell.getColumn(),
+      list.length,
+      list[0].length
+    )
+    .setValues(list);
 }
 
 function SZZ_Delete_NonImportant_Sheets() {
