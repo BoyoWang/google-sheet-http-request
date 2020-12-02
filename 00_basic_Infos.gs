@@ -26,6 +26,15 @@ var address_firstCell_A1_Style = {
     X_AxisA1Address: [3, "X_AxisA1Address"],
     serieA1Address: [4, "SerieA1Address"],
   },
+  httpRequestList: {
+    firstCell: "A1",
+    title: "httpRequestList",
+    columns: {
+      index: [0, "Index"],
+      apiAdderss: [1, "apiAddress"],
+      res: [2, "res"],
+    },
+  },
 };
 
 var name_importantSheets = {
