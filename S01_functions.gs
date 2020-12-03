@@ -2,30 +2,24 @@ const M01_functions = {
   transformObjectValuesToArray: function (object) {
     return Object.values(object);
   },
-  makeFirst2ArrayOfTable: function (arrayColumns, tableTitle) {
-    // read table column infos
-    // var indexInfoArray = this.transformObjectValuesToArray(columnInfoObject);
-    var indexInfoArray = arrayColumns;
-
-    // sort the indexInfoArray by index
-    // indexInfoArray.sort(function (a, b) {
-    //   return a[0] - b[0];
-    // });
-
+  makeFirst2ArrayOfTable: function (
+    /*arrayOfStrings*/ arrayColumns,
+    /*string*/ tableTitle
+  ) {
     // read column amount
-    var colAmt = indexInfoArray.length;
+    const colAmt = arrayColumns.length;
 
     // values for first row, title, "", "" ...
-    var firstRowArray = [];
+    let firstRowArray = [];
     firstRowArray.push(tableTitle);
-    for (var i = 1; i < colAmt; i++) {
+    for (i = 1; i < colAmt; i++) {
       firstRowArray.push("");
     }
 
     // values for second row, col1Title, col2Title, col3Title ...
     var secondRowArray = [];
-    for (var i = 0; i < colAmt; i++) {
-      secondRowArray.push(indexInfoArray[i]);
+    for (i = 0; i < colAmt; i++) {
+      secondRowArray.push(arrayColumns[i]);
     }
 
     // push fisrt and second row into new array
