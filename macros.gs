@@ -1,11 +1,11 @@
 function M00_resetFile() {
-  const generalMarcos = new S02_GeneralMarcos();
+  const generalMacros = new S02_GeneralMacros();
 
-  const mainSheet = generalMarcos.createSheetIfNonExist(
+  const mainSheet = generalMacros.createSheetIfNonExist(
     S00_importantSheets.mainSheet
   );
 
-  generalMarcos.deleteUnimportantSheets();
+  generalMacros.deleteUnimportantSheets();
 
   mainSheet.clearContents().clearFormats();
   Logger.log("File is reset.");
@@ -15,7 +15,7 @@ function M00_resetFile() {
     S00_httpRequestTable.title
   );
 
-  generalMarcos.setValuesToSheet(
+  generalMacros.setValuesToSheet(
     mainSheet,
     S00_httpRequestTable.firstCell,
     arrayTableData
