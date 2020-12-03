@@ -17,7 +17,7 @@ class M02_GeneralMarcos {
     }
   }
 
-  createSheetIfNonExist(sheetName) {
+  createSheetIfNonExist(/*string*/ sheetName) {
     let sheet = this.spreadsheet.getSheetByName(sheetName);
     if (!sheet) {
       sheet = this.spreadsheet.insertSheet(sheetName);
@@ -26,7 +26,11 @@ class M02_GeneralMarcos {
     return sheet;
   }
 
-  setValuesToSheet(sheet, firstCellAddress, arrayTableData) {
+  setValuesToSheet(
+    /*sheet*/ sheet,
+    /*string*/ firstCellAddress,
+    /*array*/ arrayTableData
+  ) {
     var rangeFirstCell = sheet.getRange(firstCellAddress);
     sheet
       .getRange(
