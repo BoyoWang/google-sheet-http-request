@@ -8,7 +8,10 @@ function SZZ_resetFile() {
     Logger.log("mainSheet created.");
   }
 
-  SZZ_Delete_NonImportant_Sheets();
+  // M02_generalMarcos.deleteUnimportantSheets(spreadsheet);
+  const generalMarcos = new M02_GeneralMarcos();
+  generalMarcos.deleteUnimportantSheets();
+
   mainSheet.clearContents().clearFormats();
   Logger.log("File is reset.");
 
@@ -70,30 +73,6 @@ function SZZ_getHttpRequests() {
       return data;
     } catch (error) {
       return error;
-    }
-  }
-}
-
-function SZZ_Delete_NonImportant_Sheets() {
-  const spreadsheet = SpreadsheetApp.getActive();
-  const sheets = spreadsheet.getSheets();
-
-  for (let i = 0; i < sheets.length; i++) {
-    let sheetNameToTest = sheets[i].getSheetName();
-    if (!TestIfSheetIsImportant(sheetNameToTest)) {
-      spreadsheet.deleteSheet(spreadsheet.getSheetByName(sheetNameToTest));
-      Logger.log("Sheet '" + sheetNameToTest + "' is deleted.");
-    }
-  }
-
-  function TestIfSheetIsImportant(sheetName) {
-    const importantSheetsArray = M01_functions.transformObjectValuesToArray(
-      M00_importantSheets
-    );
-    if (importantSheetsArray.indexOf(sheetName) > -1) {
-      return true;
-    } else {
-      return false;
     }
   }
 }
