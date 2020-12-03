@@ -70,7 +70,7 @@ const M01_functions = {
     );
     return rangeToReturn;
   },
-  testIfSheetIsImportant: function (sheetName) {
+  testIfSheetIsImportant: function (/*string*/ sheetName) {
     const importantSheetsArray = this.transformObjectValuesToArray(
       S00_importantSheets
     );
