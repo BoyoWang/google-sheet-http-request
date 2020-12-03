@@ -1,4 +1,4 @@
-function SZZ_resetFile() {
+function M00_resetFile() {
   const generalMarcos = new S02_GeneralMarcos();
 
   const mainSheet = generalMarcos.createSheetIfNonExist(
@@ -22,7 +22,7 @@ function SZZ_resetFile() {
   );
 }
 
-function SZZ_getHttpRequests() {
+function M01_getHttpRequests() {
   const spreadsheet = SpreadsheetApp.getActive();
   const mainSheet = spreadsheet.getSheetByName(S00_importantSheets.mainSheet);
 
