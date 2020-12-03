@@ -1,4 +1,4 @@
-const M00_tablesInfo = {
+const S00_tablesInfo = {
   httpRequestList: {
     firstCell: "A1",
     title: "httpRequestList",
@@ -10,6 +10,6 @@ const M00_tablesInfo = {
   },
 };
 
-const M00_importantSheets = {
+const S00_importantSheets = {
   mainSheet: "Main",
 };

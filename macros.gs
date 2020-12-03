@@ -1,8 +1,8 @@
 function SZZ_resetFile() {
-  const generalMarcos = new M02_GeneralMarcos();
+  const generalMarcos = new S02_GeneralMarcos();
 
   const mainSheet = generalMarcos.createSheetIfNonExist(
-    M00_importantSheets.mainSheet
+    S00_importantSheets.mainSheet
   );
 
   generalMarcos.deleteUnimportantSheets();
@@ -11,32 +11,32 @@ function SZZ_resetFile() {
   Logger.log("File is reset.");
 
   const arrayTableData = M01_functions.makeFirst2ArrayOfTable(
-    M00_tablesInfo.httpRequestList.columns,
-    M00_tablesInfo.httpRequestList.title
+    S00_tablesInfo.httpRequestList.columns,
+    S00_tablesInfo.httpRequestList.title
   );
 
   generalMarcos.setValuesToSheet(
     mainSheet,
-    M00_tablesInfo.httpRequestList.firstCell,
+    S00_tablesInfo.httpRequestList.firstCell,
     arrayTableData
   );
 }
 
 function SZZ_getHttpRequests() {
   const spreadsheet = SpreadsheetApp.getActive();
-  const mainSheet = spreadsheet.getSheetByName(M00_importantSheets.mainSheet);
+  const mainSheet = spreadsheet.getSheetByName(S00_importantSheets.mainSheet);
 
   const rangeApiListTable = M01_functions.getTableRangeExcludeTopRows(
     mainSheet,
-    M00_tablesInfo.httpRequestList.firstCell,
+    S00_tablesInfo.httpRequestList.firstCell,
     2
   );
 
   let arrayApiListTableData = rangeApiListTable.getValues();
 
-  const indexColIndex = M00_tablesInfo.httpRequestList.columns.index[0];
-  const apiColIndex = M00_tablesInfo.httpRequestList.columns.apiAdderss[0];
-  const resColIndex = M00_tablesInfo.httpRequestList.columns.response[0];
+  const indexColIndex = S00_tablesInfo.httpRequestList.columns.index[0];
+  const apiColIndex = S00_tablesInfo.httpRequestList.columns.apiAdderss[0];
+  const resColIndex = S00_tablesInfo.httpRequestList.columns.response[0];
   let apiAddress = "";
   let res = "";
 

@@ -72,7 +72,7 @@ const M01_functions = {
   },
   testIfSheetIsImportant: function (sheetName) {
     const importantSheetsArray = this.transformObjectValuesToArray(
-      M00_importantSheets
+      S00_importantSheets
     );
     if (importantSheetsArray.indexOf(sheetName) > -1) {
       return true;

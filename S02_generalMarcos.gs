@@ -1,4 +1,4 @@
-class M02_GeneralMarcos {
+class S02_GeneralMarcos {
   constructor(spreadsheet = SpreadsheetApp.getActive()) {
     this.spreadsheet = spreadsheet;
   }
