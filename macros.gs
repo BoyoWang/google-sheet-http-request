@@ -11,13 +11,13 @@ function SZZ_resetFile() {
   Logger.log("File is reset.");
 
   const arrayTableData = M01_functions.makeFirst2ArrayOfTable(
-    S00_tablesInfo.columns,
-    S00_tablesInfo.title
+    S00_httpRequestTable.columns,
+    S00_httpRequestTable.title
   );
 
   generalMarcos.setValuesToSheet(
     mainSheet,
-    S00_tablesInfo.firstCell,
+    S00_httpRequestTable.firstCell,
     arrayTableData
   );
 }
@@ -28,15 +28,15 @@ function SZZ_getHttpRequests() {
 
   const rangeApiListTable = M01_functions.getTableRangeExcludeTopRows(
     mainSheet,
-    S00_tablesInfo.firstCell,
+    S00_httpRequestTable.firstCell,
     2
   );
 
   let arrayApiListTableData = rangeApiListTable.getValues();
 
-  const indexColIndex = S00_tablesInfo.columns.indexOf("index");
-  const apiColIndex = S00_tablesInfo.columns.indexOf("apiAddress");
-  const resColIndex = S00_tablesInfo.columns.indexOf("response");
+  const indexColIndex = S00_httpRequestTable.columns.indexOf("index");
+  const apiColIndex = S00_httpRequestTable.columns.indexOf("apiAddress");
+  const resColIndex = S00_httpRequestTable.columns.indexOf("response");
   let apiAddress = "";
   let res = "";
 

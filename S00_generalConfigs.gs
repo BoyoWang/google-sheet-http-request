@@ -6,7 +6,7 @@ class S00_Table {
   }
 }
 
-const S00_tablesInfo = new S00_Table("httpRequestList", "A1", [
+const S00_httpRequestTable = new S00_Table("httpRequestList", "A1", [
   "index",
   "apiAddress",
   "response",
