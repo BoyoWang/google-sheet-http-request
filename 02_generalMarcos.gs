@@ -25,4 +25,16 @@ class M02_GeneralMarcos {
     }
     return sheet;
   }
+
+  setValuesToSheet(sheet, firstCellAddress, arrayTableData) {
+    var rangeFirstCell = sheet.getRange(firstCellAddress);
+    sheet
+      .getRange(
+        rangeFirstCell.getRow(),
+        rangeFirstCell.getColumn(),
+        arrayTableData.length,
+        arrayTableData[0].length
+      )
+      .setValues(arrayTableData);
+  }
 }

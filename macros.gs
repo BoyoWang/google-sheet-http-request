@@ -10,21 +10,16 @@ function SZZ_resetFile() {
   mainSheet.clearContents().clearFormats();
   Logger.log("File is reset.");
 
-  var list = M01_functions.makeFirst2ArrayOfTable(
+  var arrayTableData = M01_functions.makeFirst2ArrayOfTable(
     M00_tablesInfo.httpRequestList.columns,
     M00_tablesInfo.httpRequestList.title
   );
 
-  //Set array values to the range
-  var firstCell = mainSheet.getRange(M00_tablesInfo.httpRequestList.firstCell);
-  mainSheet
-    .getRange(
-      firstCell.getRow(),
-      firstCell.getColumn(),
-      list.length,
-      list[0].length
-    )
-    .setValues(list);
+  generalMarcos.setValuesToSheet(
+    mainSheet,
+    M00_tablesInfo.httpRequestList.firstCell,
+    arrayTableData
+  );
 }
 
 function SZZ_getHttpRequests() {
