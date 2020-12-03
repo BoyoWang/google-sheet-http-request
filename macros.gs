@@ -10,7 +10,7 @@ function SZZ_resetFile() {
   mainSheet.clearContents().clearFormats();
   Logger.log("File is reset.");
 
-  const arrayTableData = M01_functions.makeFirst2ArrayOfTable(
+  const arrayTableData = S01_functions.makeFirst2ArrayOfTable(
     S00_httpRequestTable.columns,
     S00_httpRequestTable.title
   );
@@ -26,7 +26,7 @@ function SZZ_getHttpRequests() {
   const spreadsheet = SpreadsheetApp.getActive();
   const mainSheet = spreadsheet.getSheetByName(S00_importantSheets.mainSheet);
 
-  const rangeApiListTable = M01_functions.getTableRangeExcludeTopRows(
+  const rangeApiListTable = S01_functions.getTableRangeExcludeTopRows(
     mainSheet,
     S00_httpRequestTable.firstCell,
     2

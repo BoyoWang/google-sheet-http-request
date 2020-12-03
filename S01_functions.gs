@@ -1,4 +1,4 @@
-const M01_functions = {
+const S01_functions = {
   transformObjectValuesToArray: function (object) {
     return Object.values(object);
   },
