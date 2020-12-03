@@ -1,15 +1,10 @@
 function SZZ_resetFile() {
-  const spreadsheet = SpreadsheetApp.getActive();
-  let mainSheet = spreadsheet.getSheetByName(M00_importantSheets.mainSheet);
-
-  if (!mainSheet) {
-    spreadsheet.insertSheet(M00_importantSheets.mainSheet);
-    mainSheet = spreadsheet.getSheetByName(M00_importantSheets.mainSheet);
-    Logger.log("mainSheet created.");
-  }
-
-  // M02_generalMarcos.deleteUnimportantSheets(spreadsheet);
   const generalMarcos = new M02_GeneralMarcos();
+
+  const mainSheet = generalMarcos.createSheetIfNonExist(
+    M00_importantSheets.mainSheet
+  );
+
   generalMarcos.deleteUnimportantSheets();
 
   mainSheet.clearContents().clearFormats();

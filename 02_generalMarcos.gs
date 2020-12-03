@@ -16,4 +16,13 @@ class M02_GeneralMarcos {
       }
     }
   }
+
+  createSheetIfNonExist(sheetName) {
+    let sheet = this.spreadsheet.getSheetByName(sheetName);
+    if (!sheet) {
+      sheet = this.spreadsheet.insertSheet(sheetName);
+      Logger.log(sheet.getName() + "created.");
+    }
+    return sheet;
+  }
 }
