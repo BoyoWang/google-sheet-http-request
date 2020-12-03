@@ -26,7 +26,7 @@ function SZZ_getHttpRequests() {
   const spreadsheet = SpreadsheetApp.getActive();
   const mainSheet = spreadsheet.getSheetByName(M00_importantSheets.mainSheet);
 
-  const rangeApiList = FN_returnListRangeExcludeTopRows(
+  const rangeApiList = M01_functions.getTableRangeExcludeTopRows(
     mainSheet,
     M00_tablesInfo.httpRequestList.firstCell,
     2
@@ -80,7 +80,7 @@ function SZZ_Delete_NonImportant_Sheets() {
   }
 
   function TestIfSheetIsImportant(sheetName) {
-    const importantSheetsArray = FN_transformObjectValuesToArray(
+    const importantSheetsArray = M01_functions.transformObjectValuesToArray(
       M00_importantSheets
     );
     if (importantSheetsArray.indexOf(sheetName) > -1) {
