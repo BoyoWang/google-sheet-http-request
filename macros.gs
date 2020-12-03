@@ -1,6 +1,13 @@
 function SZZ_resetFile() {
   const spreadsheet = SpreadsheetApp.getActive();
-  const mainSheet = spreadsheet.getSheetByName(M00_importantSheets.mainSheet);
+  let mainSheet = spreadsheet.getSheetByName(M00_importantSheets.mainSheet);
+
+  if (!mainSheet) {
+    spreadsheet.insertSheet(M00_importantSheets.mainSheet);
+    mainSheet = spreadsheet.getSheetByName(M00_importantSheets.mainSheet);
+    Logger.log("mainSheet created.");
+  }
+
   SZZ_Delete_NonImportant_Sheets();
   mainSheet.clearContents().clearFormats();
   Logger.log("File is reset.");
