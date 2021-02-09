@@ -1,0 +1,215 @@
+function M00_resetFile() {
+  var spreadsheet = SpreadsheetApp.getActive();
+
+  const generalMacros = new S02_GeneralMacros();
+
+  const mainSheet = generalMacros.createSheetIfNonExist(
+    S00_importantSheets.mainSheet
+  );
+
+  generalMacros.deleteUnimportantSheets();
+
+  mainSheet.clearContents().clearFormats();
+  Logger.log("File is reset.");
+
+  spreadsheet.getSheetByName(S00_importantSheets.dataTemp).activate();
+  spreadsheet.duplicateActiveSheet();
+}
+
+function M01_execute_all() {
+  M03_noise_octaveData_delete_rows();
+  M04_noise_octaveData_delete_cols();
+  M05_noise_octaveData_CopyToNewSheetTransposed();
+  M06_dataSortAndAvgCopyToNewSheet();
+  M07_transposeData();
+  M08_copyToNewSheet();
+}
+
+function M03_noise_octaveData_delete_rows() {
+  const spreadsheet = SpreadsheetApp.getActive();
+  const sheet = spreadsheet.getActiveSheet();
+
+  const testRunTitleRowCell = S01_functions.getCellRangeByText(
+    sheet,
+    "TestLab\\Block\\Original run"
+  );
+  const testRunHzRowCell = S01_functions.getCellRangeByText(
+    sheet,
+    "Octave 1/3"
+  ).offset(-1, 0);
+
+  const testRunTitleRowNumber = testRunTitleRowCell.getRow();
+  const hzRowNumber = testRunHzRowCell.getRow();
+
+  sheet.deleteRows(
+    testRunTitleRowNumber + 1,
+    hzRowNumber - testRunTitleRowNumber - 1
+  );
+  sheet.deleteRows(1, testRunTitleRowNumber - 1);
+}
+
+function M04_noise_octaveData_delete_cols() {
+  var spreadsheet = SpreadsheetApp.getActive();
+
+  const sheet = spreadsheet.getActiveSheet();
+
+  const allDataRangeNumCols = sheet.getDataRange().getNumColumns();
+
+  for (var i = allDataRangeNumCols; i / 2 > 1; i = i - 2) {
+    sheet.deleteColumns(i - 1, 1);
+  }
+}
+
+function M05_noise_octaveData_CopyToNewSheetTransposed() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  const generalMacros = new S02_GeneralMacros();
+
+  const sheet = spreadsheet.getActiveSheet();
+
+  const copyFromRange = sheet.getDataRange();
+
+  const newSheet = generalMacros.createSheetIfNonExist(
+    sheet.getSheetName() + "_t"
+  );
+
+  copyFromRange.copyTo(
+    newSheet.getActiveRange(),
+    SpreadsheetApp.CopyPasteType.PASTE_NORMAL,
+    true
+  );
+  newSheet.getRange("A2").activate();
+}
+
+function M06_dataSortAndAvgCopyToNewSheet() {
+  const generalMacros = new S02_GeneralMacros();
+
+  var spreadsheet = SpreadsheetApp.getActive();
+  const sheet = spreadsheet.getActiveSheet();
+
+  sheet.getDataRange().sort({ column: 1, ascending: true });
+
+  spreadsheet.getActiveSheet().autoResizeColumns(1, 1);
+
+  const applyHeadCell = spreadsheet
+    .getRange("A1")
+    .getNextDataCell(SpreadsheetApp.Direction.DOWN)
+    .offset(1, 0);
+  applyHeadCell.setValue("A_avg");
+  applyHeadCell.offset(0, 1).setValue("Pa");
+  applyHeadCell.offset(0, 2).setValue("dB(A)");
+
+  const releaseHeadCell = applyHeadCell.offset(1, 0);
+  releaseHeadCell.setValue("R_avg");
+  releaseHeadCell.offset(0, 1).setValue("Pa");
+  releaseHeadCell.offset(0, 2).setValue("dB(A)");
+
+  const applyFormulaHeadCell = applyHeadCell.offset(0, 3);
+  const applyFormulaEndCell = applyFormulaHeadCell.getNextDataCell(
+    SpreadsheetApp.Direction.NEXT
+  );
+  const applyFormulaRangesA1Notation =
+    applyFormulaHeadCell.getA1Notation() +
+    ":" +
+    applyFormulaEndCell.getA1Notation();
+
+  const rowForApplyA1 = S01_functions.getCellRangeByText(
+    sheet,
+    "A 1",
+    false
+  ).getRow();
+  const rowForApplyFormulaHeadCell = applyFormulaHeadCell.getRow();
+  let rowNumForAvgRangeStart = rowForApplyA1 - rowForApplyFormulaHeadCell;
+  let rowNumForAvgRangeEnd = rowNumForAvgRangeStart + 2;
+
+  spreadsheet
+    .getRange(applyFormulaRangesA1Notation)
+    .setFormulaR1C1(
+      `=AVERAGE(R[${rowNumForAvgRangeStart}]C[0]:R[${rowNumForAvgRangeEnd}]C[0])`
+    );
+
+  const releaseFormulaHeadCell = applyFormulaHeadCell.offset(1, 0);
+  const releaseFormulaEndCell = applyFormulaEndCell.offset(1, 0);
+  const releaseFormulaRangesA1Notation =
+    releaseFormulaHeadCell.getA1Notation() +
+    ":" +
+    releaseFormulaEndCell.getA1Notation();
+
+  const rowForReleaseR1 = S01_functions.getCellRangeByText(
+    sheet,
+    "R 1",
+    false
+  ).getRow();
+  const rowForReleaFormulaHeadCell = releaseFormulaHeadCell.getRow();
+  rowNumForAvgRangeStart = rowForReleaseR1 - rowForReleaFormulaHeadCell;
+  rowNumForAvgRangeEnd = rowNumForAvgRangeStart + 2;
+
+  spreadsheet
+    .getRange(releaseFormulaRangesA1Notation)
+    .setFormulaR1C1(
+      `=AVERAGE(R[${rowNumForAvgRangeStart}]C[0]:R[${rowNumForAvgRangeEnd}]C[0])`
+    );
+
+  console.log(
+    applyHeadCell.offset(-1, 0).getA1Notation() +
+      ":" +
+      releaseFormulaEndCell.getA1Notation()
+  );
+
+  const newSheet = generalMacros.createSheetIfNonExist("Final");
+
+  const copyFrom = sheet.getRange(
+    applyHeadCell.offset(-1, 0).getA1Notation() +
+      ":" +
+      releaseFormulaEndCell.getA1Notation()
+  );
+  copyFrom.copyTo(
+    newSheet.getActiveRange(),
+    SpreadsheetApp.CopyPasteType.PASTE_VALUES,
+    false
+  );
+  newSheet.activate();
+}
+
+function M07_transposeData() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet
+    .getDataRange()
+    .copyTo(
+      spreadsheet.getRange("A4"),
+      SpreadsheetApp.CopyPasteType.PASTE_NORMAL,
+      true
+    );
+  spreadsheet.deleteRows(1, 3);
+}
+
+function M08_copyToNewSheet() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  const sheet = spreadsheet.getActiveSheet();
+  var graphTempSheet = spreadsheet.getSheetByName(
+    S00_importantSheets.graphTemp
+  );
+
+  graphTempSheet.activate();
+  spreadsheet.duplicateActiveSheet();
+  var newGraphSheey = spreadsheet.getActiveSheet();
+
+  const copyFromStartCell = S01_functions.getCellRangeByText(
+    sheet,
+    "100"
+  ).offset(0, 1);
+  const copyFromEndCell = S01_functions.getCellRangeByText(
+    sheet,
+    "10000"
+  ).offset(0, 2);
+
+  const copyToCell = S01_functions.getCellRangeByText(
+    newGraphSheey,
+    "100"
+  ).offset(0, 1);
+
+  sheet
+    .getRange(
+      copyFromStartCell.getA1Notation() + ":" + copyFromEndCell.getA1Notation()
+    )
+    .copyTo(copyToCell, SpreadsheetApp.CopyPasteType.PASTE_NORMAL);
+}
