@@ -29,13 +29,22 @@ const S01_functions = {
 
     return arrayReturn;
   },
-  getCellRangeByText: function (/*sheet*/ sheet, /*string*/ textToFind) {
+  getCellRangeByText: function (
+    /*sheet*/ sheet,
+    /*string*/ textToFind,
+    /*boolean*/ exactMatch = true
+  ) {
     var allDataRange = sheet.getDataRange();
     var allDataRangeData = allDataRange.getValues();
 
     for (var i = 0; i < allDataRange.getNumRows(); i++) {
       for (var j = 0; j < allDataRange.getNumColumns(); j++) {
-        if (allDataRangeData[i][j] == textToFind) {
+        if (
+          exactMatch
+            ? allDataRangeData[i][j] == textToFind
+            : typeof allDataRangeData[i][j] == "string" &&
+              allDataRangeData[i][j].indexOf(textToFind) > -1
+        ) {
           return sheet.getRange(i + 1, j + 1);
         }
       }
